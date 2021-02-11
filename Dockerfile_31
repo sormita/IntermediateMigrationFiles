@@ -20,10 +20,10 @@ RUN addgroup --system --gid 1000 customgroup \
     && adduser --system --uid 1000 --ingroup customgroup --shell /bin/sh customuser
   
 # Serve on port 8080, we cannot serve on port 80 with a custom user that is not root.
-ENV ASPNETCORE_URLS=http://+:54360
-EXPOSE 54360
+ENV ASPNETCORE_URLS=http://+:{port_number}
+EXPOSE {port_number}
 
 COPY --from=build-env /app/out .
 # Tell docker that all future commands should run as the appuser user, must use the user number
 USER 1000
-ENTRYPOINT ["dotnet", "InventoryManagement.dll"]
+ENTRYPOINT ["dotnet", "{projectname}.dll"]
